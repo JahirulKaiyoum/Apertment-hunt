@@ -3,7 +3,11 @@ import { Link, useHistory } from "react-router-dom";
 // import instance from "../axios";
 // import { useStateValue } from "../StateProvider";
 import "./Bookings.css";
+import logo from "../../Images/Logo.png";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../features/userSlice";
 function Bookings() {
+  const user = useSelector(selectUser);
   //   const [myOrders, setMyOrders] = useState([]);
   //   const [orderInfo, setOrderInfo] = useState({
   //     clientName: "",
@@ -61,7 +65,7 @@ function Bookings() {
     <div className="booking">
       <div className="booking__left">
         <Link to="/">
-          <img src={require("../../Images/Logo.png")} alt="" />
+          <img src={logo} alt="" />
         </Link>
         <p onClick={() => setToggleValue(0)}>
           <svg
@@ -122,7 +126,7 @@ function Bookings() {
               ? "Add Rent"
               : "My Rent"}
           </h1>
-          <p>Ahmed Imdad</p>
+          <p>{user?.displayName || user?.email}</p>
         </div>
 
         {toggleValue === 0 ? (
