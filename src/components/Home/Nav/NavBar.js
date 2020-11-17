@@ -1,53 +1,60 @@
-import React from 'react';
-import { Nav, Navbar } from 'react-bootstrap';
-import { Link, NavLink } from 'react-router-dom';
-import logo from '../../../Images/Logo.png'
-import './navBar.scss'
+import React from "react";
+import { Nav, Navbar } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { Link, NavLink } from "react-router-dom";
+import { selectUser } from "../../../features/userSlice";
+import logo from "../../../Images/Logo.png";
+import { auth } from "../../firebase";
+import "./navBar.scss";
 
 const NavBar = () => {
-    return (
-        <section >  
-        <Navbar sticky="top"  bg="red" expand="lg">
-      <Navbar.Brand style={{ textDecoration:" none",color: "#C82333 !important"}} ><Link to="/"><img className="logo" src={logo} alt="logo" /></Link>
-      </Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="ml-auto">
-          <NavLink className="mr-5 menu-item" to="/home">
-            Home
-          </NavLink>
-          <NavLink className="mr-5 menu-item" to="/about">
-            About
-          </NavLink>
-          <NavLink className="mr-5 menu-item" to="/service">
-            Service
-          </NavLink>
-          <NavLink className="mr-5 menu-item" to="/concerns">
-                            Concerns
-          </NavLink>
-          <NavLink className="mr-5 menu-item" to="/event">
-          Event
-        </NavLink>
-          <NavLink className="mr-5 menu-item" to="/contact">
-            Contact
-          </NavLink>
-          <NavLink className="mr-5 menu-item" to="/login">
-            Login
-          </NavLink>
-        </Nav>
-      </Navbar.Collapse>
+  const user = useSelector(selectUser);
+  return (
+    <section>
+      <Navbar sticky="top" bg="red" expand="lg">
+        <Navbar.Brand
+          style={{ textDecoration: " none", color: "#C82333 !important" }}
+        >
+          <Link to="/">
+            <img className="logo" src={logo} alt="logo" />
+          </Link>
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ml-auto menu-item-container">
+            <NavLink className="mr-5 menu-item" to="/home">
+              Home
+            </NavLink>
+            <NavLink className="mr-5 menu-item" to="/about">
+              About
+            </NavLink>
+            <NavLink className="mr-5 menu-item" to="/service">
+              Service
+            </NavLink>
+            <NavLink className="mr-5 menu-item" to="/concerns">
+              Concerns
+            </NavLink>
+            <NavLink className="mr-5 menu-item" to="/event">
+              Event
+            </NavLink>
+            <NavLink className="mr-5 menu-item" to="/contact">
+              Contact
+            </NavLink>
+            <NavLink
+              onClick={() => auth.signOut()}
+              className="mr-5 menu-item-btn"
+              to={!user && "/login"}
+            >
+              {user ? "Log Out" : "Login"}
+            </NavLink>
+          </Nav>
+        </Navbar.Collapse>
       </Navbar>
-    
-    
-    
-</section>
-    );
+    </section>
+  );
 };
 
 export default NavBar;
-
-
-     
 
 // <section >
 //                 <div className="container">
