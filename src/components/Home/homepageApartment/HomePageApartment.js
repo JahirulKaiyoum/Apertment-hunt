@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Button, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -74,4 +75,3 @@ const HomePageApartment = (props) => {
 };
 
 export default HomePageApartment;
-// <Link to={`/details/${serviceTitle}`}></Link>

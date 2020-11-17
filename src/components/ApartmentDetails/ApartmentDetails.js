@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
+=======
+
+import React, { useState } from "react";
+>>>>>>> 4ac336c244fbf18a2b5d335e9f51a98101315074
 import "./ApartmentDetails.css";
 import img1 from "../../Images/Rectangle 407.png";
 import img2 from "../../Images/Rectangle 408.png";
@@ -155,3 +160,4 @@ const ApartmentDetails = () => {
 };
 
 export default ApartmentDetails;
+
