@@ -1,32 +1,54 @@
+<<<<<<< HEAD
+import React, { useEffect, useState } from "react";
+=======
 
 import React, { useState } from "react";
+>>>>>>> 4ac336c244fbf18a2b5d335e9f51a98101315074
 import "./ApartmentDetails.css";
 import img1 from "../../Images/Rectangle 407.png";
 import img2 from "../../Images/Rectangle 408.png";
 import img3 from "../../Images/Rectangle 409.png";
 import img4 from "../../Images/Rectangle 410.png";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { selectApartment } from "../../features/appSlice";
 import { selectBooker, setBookerInfo } from "../../features/bookerSlice";
+import instance from "../axios";
+import userEvent from "@testing-library/user-event";
+import { selectUser } from "../../features/userSlice";
 
 const ApartmentDetails = () => {
   const apartment = useSelector(selectApartment);
   // const [booker, setBooker] = useState({});
   const dispatch = useDispatch();
   const booker = useSelector(selectBooker);
+  const user = useSelector(selectUser);
+  const history = useHistory();
 
-  const handleBooking = (e) => {
-    e.preventDefault();
-
+  useEffect(() => {
     dispatch(
       setBookerInfo({
-        name: booker.name,
-        number: booker.number,
-        email: booker.email,
-        message: booker.message,
+        ...booker,
+        name: user?.displayName,
+        email: user?.email,
       })
     );
+  }, [dispatch]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    await instance.post("/addBooking", {
+      name: booker.name,
+      emailID: booker.email,
+      phoneNo: booker.number,
+      message: booker.message,
+      status: "Pending",
+      houseName: apartment.title,
+      price: apartment.price,
+    });
+
+    history.push("/bookings");
   };
   return (
     <div className="apartmentDetails">
@@ -91,14 +113,7 @@ const ApartmentDetails = () => {
           <form className="apartmentDetails__formbox" action="">
             <input
               type="text"
-              onBlur={(e) =>
-                dispatch(
-                  setBookerInfo({
-                    ...booker,
-                    name: e.target.value,
-                  })
-                )
-              }
+              value={user?.displayName}
               placeholder="Full Name"
               required="required"
             />
@@ -117,14 +132,7 @@ const ApartmentDetails = () => {
             />
             <input
               type="email"
-              onBlur={(e) =>
-                dispatch(
-                  setBookerInfo({
-                    ...booker,
-                    email: e.target.value,
-                  })
-                )
-              }
+              value={user?.email}
               placeholder="Email Address"
               required="required"
             />
@@ -140,9 +148,10 @@ const ApartmentDetails = () => {
               }
               placeholder="Message"
             />
-            <Link to="/bookings">
-              <button type="submit">Request Booking</button>
-            </Link>
+
+            <button onClick={handleSubmit} type="submit">
+              Request Booking
+            </button>
           </form>
         </div>
       </div>
