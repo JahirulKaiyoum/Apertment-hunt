@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import "./ApartmentDetails.css";
 import img1 from "../../Images/Rectangle 407.png";
@@ -150,3 +151,4 @@ const ApartmentDetails = () => {
 };
 
 export default ApartmentDetails;
+
