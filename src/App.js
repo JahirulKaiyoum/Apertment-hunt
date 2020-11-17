@@ -47,7 +47,6 @@ function App() {
           <NavBar />
           <ApartmentDetails />
         </Route>
-
         <Route path="/bookings">
           <Bookings></Bookings>
         </Route>

@@ -6,58 +6,21 @@ import "./Bookings.css";
 import logo from "../../Images/Logo.png";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../features/userSlice";
+import instance from "../axios";
 function Bookings() {
   const user = useSelector(selectUser);
-  //   const [myOrders, setMyOrders] = useState([]);
-  //   const [orderInfo, setOrderInfo] = useState({
-  //     clientName: "",
-  //     clientEmail: "",
-  //     details: "",
-  //     price: "",
-  //   });
-  //   const [reviewInfo, setReviewInfo] = useState({
-  //     title: "",
-  //     description: "",
-  //   });
+  const [allBookings, setAllBookings] = useState([]);
+  const [myBookings, setMyBookings] = useState([]);
 
-  //   const [{ user, orders }, dispatch] = useStateValue();
-  //   const history = useHistory();
-  //   const handleSubmit = async (e) => {
-  //     e.preventDefault();
+  useEffect(() => {
+    instance.get("/getBookings").then((res) => setAllBookings(res.data));
+  }, []);
 
-  //     await instance.post("/orders/new", {
-  //       clientName: user.displayName,
-  //       clientEmail: user.email,
-  //       details: orderInfo.details,
-  //       price: orderInfo.price,
-  //       type: orders[orders.length - 1]?.type,
-  //       description: orders[orders.length - 1]?.description,
-  //       icon: orders[orders.length - 1]?.icon,
-  //       status: "Pending",
-  //     });
-
-  //     history.push("/");
-  //   };
-
-  //   const handleReview = async (e) => {
-  //     e.preventDefault();
-
-  //     await instance.post("/reviews", {
-  //       name: user.displayName,
-
-  //       title: reviewInfo.title,
-  //       description: reviewInfo.description,
-  //     });
-
-  //     history.push("/");
-  //   };
-
-  //   useEffect(() => {
-  //     instance.get("/orders/sync?name=" + user?.displayName).then((res) => {
-  //       setMyOrders(res.data);
-  //       console.log(myOrders);
-  //     });
-  //   }, []);
+  useEffect(() => {
+    instance.get("/getUserBookingList?name=" + user.displayName).then((res) => {
+      setMyBookings(res.data);
+    });
+  }, []);
 
   const [toggleValue, setToggleValue] = useState(0);
 
@@ -139,36 +102,15 @@ function Bookings() {
               <p>Status</p>
             </div>
 
-            <div className="bookings">
-              <p>Imdad</p>
-              <p>123@gmail.com</p>
-              <p>01611321546</p>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae,
-                voluptate.
-              </p>
-              <p>Pending</p>
-            </div>
-            <div className="bookings">
-              <p>Imdad</p>
-              <p>123@gmail.com</p>
-              <p>01611321546</p>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae,
-                voluptate.
-              </p>
-              <p>Pending</p>
-            </div>
-            <div className="bookings">
-              <p>Imdad</p>
-              <p>123@gmail.com</p>
-              <p>01611321546</p>
-              <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae,
-                voluptate.
-              </p>
-              <p>Pending</p>
-            </div>
+            {allBookings.map((booking) => (
+              <div className="bookings">
+                <p>{booking.name}</p>
+                <p>{booking.emailID}</p>
+                <p>{booking.phoneNo}</p>
+                <p>{booking.message}</p>
+                <p>{booking.status}</p>
+              </div>
+            ))}
           </div>
         ) : toggleValue === 1 ? (
           <div className="AddRent">
@@ -214,21 +156,13 @@ function Bookings() {
               <p>Action</p>
             </div>
 
-            <div className="myRents">
-              <p>Washington Avenue</p>
-              <p>$250</p>
-              <button>View Details</button>
-            </div>
-            <div className="myRents">
-              <p>Washington Avenue</p>
-              <p>$250</p>
-              <button>View Details</button>
-            </div>
-            <div className="myRents">
-              <p>Washington Avenue</p>
-              <p>$250</p>
-              <button>View Details</button>
-            </div>
+            {myBookings.map((booking) => (
+              <div className="myRents">
+                <p>{booking.houseName}</p>
+                <p>{booking.price}</p>
+                <button>View Details</button>
+              </div>
+            ))}
           </div>
         )}
       </div>
